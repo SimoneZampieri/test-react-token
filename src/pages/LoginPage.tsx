@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
-import {login } from '../services/authService';
+import { login } from '../services/authService';
 
 
 //schema di validazione per il form di login
@@ -32,20 +32,22 @@ const LoginPage: React.FC = () => {
         onSubmit: async (values, {setSubmitting, setStatus}) => {
             try{
                 //chiamata api per il login
-                const tokens = await login(values)
+                console.log('Tentativo di login con:', values);
+                const tokens = await login(values);
+                console.log('Token ricevuti:', tokens);
 
                 //salvo token nello store
-                setAuth(tokens)
+                setAuth(tokens);
 
-                //reindirizzo alla dashboard dopo il login
-                navigate('/dashboard')
+                //reindirizzamento alla dashboard dopo il login
+                navigate('/dashboard');
             } catch (error) {
                 //gestione errori
+                console.error('Errore dettagliato:', error);
                 setStatus('Autenticazione non riuscita, ritenta');
-                console.error(error)
             } finally{
                 //ripristino lo stato di invio 
-                setSubmitting(false)
+                setSubmitting(false);
             }
         }
     })
