@@ -1,18 +1,21 @@
 import axios from 'axios';
-import  type { AuthTokens, LoginCredentials, User } from '../types/auth';
+import type { AuthTokens, LoginCredentials, User } from '../types/auth';
 
+// url dell'api mock per login e dati utente
 const API_URL = {
+  // questo endpoint restituisce token JWT e refresh token
   login: 'https://run.mocky.io/v3/8d1199c0-d333-482e87c1-78ee85010b8e',
+  // questo endpoint restituisce i dati dell'utente
   userData: 'https://run.mocky.io/v3/20ec8886-ab6e-4141-b8ffa05d93b0d44e'
 };
 
-// Salva i token nel localStorage
+// salva i token nel localStorage
 const storeTokens = (tokens: AuthTokens): void => {
   localStorage.setItem('token', tokens.token);
   localStorage.setItem('refreshToken', tokens.refreshToken);
 };
 
-// Ottiene i token dal localStorage
+// ottiene i token dal localStorage
 export const getTokens = (): AuthTokens | null => {
   const token = localStorage.getItem('token');
   const refreshToken = localStorage.getItem('refreshToken');
@@ -24,17 +27,21 @@ export const getTokens = (): AuthTokens | null => {
   return null;
 };
 
-// Rimuove i token dal localStorage
+// timuove i token dal localStorage
 export const removeTokens = (): void => {
   localStorage.removeItem('token');
   localStorage.removeItem('refreshToken');
 };
 
-// Servizio di login
+// saervizio di login
 export const login = async (credentials: LoginCredentials): Promise<AuthTokens> => {
   try {
+    // effettua la chiamata POST all'API di login
     const response = await axios.post<AuthTokens>(API_URL.login, credentials);
+    
+    // salva i token ricevuti
     storeTokens(response.data);
+    
     return response.data;
   } catch (error) {
     console.error('Errore di login:', error);
@@ -42,7 +49,7 @@ export const login = async (credentials: LoginCredentials): Promise<AuthTokens> 
   }
 };
 
-// Ottiene i dati dell'utente
+// ottiene i dati dell'utente
 export const getUserData = async (): Promise<User> => {
   const tokens = getTokens();
   
@@ -51,6 +58,7 @@ export const getUserData = async (): Promise<User> => {
   }
   
   try {
+    // effettua la chiamata get con il token JWT nell'header Authorization
     const response = await axios.get<User>(API_URL.userData, {
       headers: {
         Authorization: `Bearer ${tokens.token}`
@@ -64,7 +72,7 @@ export const getUserData = async (): Promise<User> => {
   }
 };
 
-// Verifica se l'utente è autenticato
+// verifica se l'utente è autenticato
 export const isAuthenticated = (): boolean => {
   return !!getTokens();
 };
