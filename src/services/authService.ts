@@ -50,8 +50,7 @@ const mockUserDataResponse = (): User => {
 // Servizio di login
 export const login = async (credentials: LoginCredentials): Promise<AuthTokens> => {
   try {
-    // Commentiamo la chiamata API reale che causa problemi CORS
-    // const response = await axios.post<AuthTokens>(API_URL.login, credentials);
+    
     
     // Simuliamo un ritardo per rendere più realistico il mock
     await new Promise(resolve => setTimeout(resolve, 1000));
@@ -78,12 +77,7 @@ export const getUserData = async (): Promise<User> => {
   }
   
   try {
-    // Commentiamo la chiamata API reale che potrebbe causare problemi CORS
-    // const response = await axios.get<User>(API_URL.userData, {
-    //   headers: {
-    //     Authorization: `Bearer ${tokens.token}`
-    //   }
-    // });
+   
     
     // Simuliamo un ritardo per rendere più realistico il mock
     await new Promise(resolve => setTimeout(resolve, 1000));

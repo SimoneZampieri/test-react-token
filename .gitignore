@@ -22,3 +22,32 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment variables and secrets
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env*.local
+
+# Authentication related files
+**/auth.config.ts
+**/auth.config.js
+**/auth.secrets.ts
+**/auth.secrets.js
+
+# API keys and credentials
+**/api-keys.ts
+**/api-keys.js
+**/credentials.json
+
+# Build and cache
+.cache
+build
+coverage
+
+# Local SSL certificates
+*.pem
+*.key
+*.crt
